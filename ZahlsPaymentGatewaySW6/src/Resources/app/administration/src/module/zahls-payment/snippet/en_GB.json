@@ -1,0 +1,54 @@
+{
+  "zahls-payment": {
+    "module": {
+      "title": "zahls.ch Payments",
+      "description": "zahls.ch Payments"
+    },
+    "settingsForm": {
+      "title": "zahls.ch Payments",
+      "test": "Test API-Credentials",
+      "save": "Save",
+      "messages": {
+        "messageNotBlank": "This Field must not be empty.",
+        "titleSuccess": "Success",
+        "titleError": "Error",
+        "messageTestSuccess": "The API credentials are correct.",
+        "messageTestError": "The API credentials are wrong.",
+        "messageTestErrorGeneral": "The API-Credentials could not be verified.",
+        "messageSaveSuccess": "The plugin settings have been saved.",
+        "messageSaveError": "The plugin settings could not be saved."
+      },
+      "connectButton": {
+        "text": {
+          "connect": "Mit {platform} verbinden",
+          "select": "Wähle eine Platform aus"
+        },
+        "messages": {
+          "noPlatform": {
+            "title": "No platform selected",
+            "message": "Please select a platform before connecting"
+          },
+          "cancelled": {
+            "title": "Cancelled",
+            "message": "Connecting attempt cancelled"
+          },
+          "success": {
+            "title": "Success",
+            "message": "API Key and Instance have been updated successfully"
+          },
+          "error": {
+            "title": "Error Saving",
+            "message": "Failed to save configuration: {message}"
+          }
+        }
+      }
+    },
+    "supportModal": {
+      "supportButton": "Support",
+      "title": "How Can We Help You?",
+      "supportDesc": "Contact our support team",
+      "manualButton": "Manual",
+      "manualDesc": "Read our integration manual"
+    }
+  }
+}

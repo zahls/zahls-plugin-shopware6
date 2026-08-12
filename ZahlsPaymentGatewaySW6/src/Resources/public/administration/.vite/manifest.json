@@ -1,0 +1,11 @@
+{
+  "main.js": {
+    "file": "assets/zahls-payment-gateway-s-w6-DWMell1W.js",
+    "name": "zahls-payment-gateway-s-w6",
+    "src": "main.js",
+    "isEntry": true,
+    "css": [
+      "assets/zahls-payment-gateway-s-w6-GCvCB1AX.css"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{% block platform_connect_button %}
+    <div class="sw-field my-custom-button-component">
+        <sw-button
+                variant="primary"
+                :disabled="isLoading || !isEnabled"
+                @click="onButtonClick">
+            {% block platform_connect_button_text %}
+                <template v-if="platform">
+                    {{ $tc('zahls-payment.settingsForm.connectButton.text.connect', {platform: platform}) }}
+                </template>
+                <template v-else>
+                    {{ $tc('zahls-payment.settingsForm.connectButton.text.select') }}
+                </template>
+            {% endblock %}
+        </sw-button>
+    </div>
+{% endblock %}

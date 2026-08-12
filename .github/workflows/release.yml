@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build plugin ZIP
+        run: zip -r ZahlsPaymentGatewaySW6.zip ZahlsPaymentGatewaySW6 -x '*.DS_Store'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ZahlsPaymentGatewaySW6.zip
+          generate_release_notes: true
+          body: |
+            ## Install
+            1. Download `ZahlsPaymentGatewaySW6.zip`
+            2. Install via Shopware Admin → Extensions → Upload extension
+            3. Configure platform `zahls.ch`, instance name, and API key

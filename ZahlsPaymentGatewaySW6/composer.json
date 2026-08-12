@@ -1,0 +1,55 @@
+{
+  "name": "zahls/shopware-payment",
+  "description": "zahls.ch payment gateway for Shopware 6",
+  "version": "2.1.15",
+  "type": "shopware-platform-plugin",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "zahls",
+      "homepage": "https://www.zahls.ch"
+    }
+  ],
+  "require": {
+    "php": "^8",
+    "shopware/core": "^6.6.5 || ~6.7.0",
+    "shopware/administration": "^6.6.5 || ~6.7.0",
+    "zahls/zahls-php": "dev-main"
+  },
+  "autoload": {
+    "psr-4": {
+      "ZahlsPaymentGateway\\": "src/"
+    }
+  },
+  "extra": {
+    "shopware-plugin-class": "ZahlsPaymentGateway\\ZahlsPaymentGatewaySW6",
+    "label": {
+      "en-GB": "zahls.ch Payment Gateway",
+      "de-DE": "zahls.ch Payment Gateway",
+      "de-CH": "zahls.ch Payment Gateway"
+    },
+    "description": {
+      "en-GB": "Accept TWINT, cards, PostFinance and more with zahls.ch.",
+      "de-DE": "Akzeptiere TWINT, Karten, PostFinance und mehr mit zahls.ch.",
+      "de-CH": "Akzeptiere TWINT, Karten, PostFinance und mehr mit zahls.ch."
+    },
+    "manufacturerLink": {
+      "en-GB": "https://www.zahls.ch/en/",
+      "de-DE": "https://www.zahls.ch/de/",
+      "de-CH": "https://www.zahls.ch/de/"
+    },
+    "supportLink": {
+      "en-GB": "https://www.zahls.ch/en/hilfe",
+      "de-DE": "https://www.zahls.ch/de/hilfe",
+      "de-CH": "https://www.zahls.ch/de/hilfe"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/zahls/zahls-php.git"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

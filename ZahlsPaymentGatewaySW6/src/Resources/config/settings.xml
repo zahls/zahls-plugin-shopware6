@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/shopware/platform/master/src/Core/System/SystemConfig/Schema/config.xsd">
+
+    <card>
+        <title>Configuration</title>
+        <input-field type="single-select">
+            <name>platform</name>
+            <label>Platform</label>
+            <label lang="de-DE">Plattform</label>
+            <defaultValue>zahls.ch</defaultValue>
+            <placeholder>zahls.ch</placeholder>
+                                    <options>
+                <option>
+                    <id>zahls.ch</id>
+                    <name>zahls.ch</name>
+                </option>
+            </options>
+        </input-field>
+        <component name="platform-connect-button">
+            <name>platformConnectButton</name>
+            <label>Connect to Platform</label>
+            <label lang="de-DE">Mit Platform verbinden</label>
+            <helpText>Opens a new window to connect to your selected platform to import the credentials</helpText>
+            <helpText lang="de-DE">Öffnet ein neues Fenster, um eine Verbindung zu Ihrer ausgewählten Plattform herzustellen und die Anmeldedaten zu importieren.</helpText>
+        </component>
+        <input-field type="text">
+            <name>instanceName</name>
+            <label>Instance name</label>
+            <label lang="de-DE">Instanz Name</label>
+
+            <helpText>Instance name of your    zahls account (e.g. example for example.zahls.ch)</helpText>
+        </input-field>
+        <input-field type="text">
+            <name>apiKey</name>
+            <label>API Key</label>
+            <label lang="de-DE">API Key</label>
+
+            <helpText>API secret from    zahls → API & Integrations</helpText>
+        </input-field>
+        <input-field type="text">
+            <name>lookFeelID</name>
+            <label>Look &amp; Feel ID</label>
+            <label lang="de-DE">Look &amp; Feel ID</label>
+
+            <helpText>A Look &amp; Feel ID from the settings of your    zahls account. The standard is used if
+                left empty
+            </helpText>
+        </input-field>
+    </card>
+</config>

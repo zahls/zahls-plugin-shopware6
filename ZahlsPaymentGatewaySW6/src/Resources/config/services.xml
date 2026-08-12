@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true"/>
+
+        <service id="ZahlsPaymentGateway\Handler\PaymentHandler">
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="service_container" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\CustomerService" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\ZahlsApiService" />
+            <argument type="service" id="ZahlsPaymentGateway\Handler\TransactionHandler" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\ConfigService" />
+            <argument type="service" id="monolog.logger"/>
+            <argument type="service" id="router" />
+            <argument type="service" id="Symfony\Component\HttpFoundation\RequestStack" />
+            <argument type="service" id="Shopware\Core\Framework\Plugin\PluginService" />
+            <tag name="shopware.payment.method" />
+        </service>
+
+        <service id="ZahlsPaymentGateway\Handler\TransactionHandler">
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="service_container" />
+            <argument type="service" id="monolog.logger"/>
+        </service>
+
+        <service id="ZahlsPaymentGateway\Service\CustomerService" class="ZahlsPaymentGateway\Service\CustomerService">
+            <argument type="service" id="order_address.repository" />
+            <argument type="service" id="monolog.logger"/>
+        </service>
+        <service id="ZahlsPaymentGateway\Service\ZahlsApiService" class="ZahlsPaymentGateway\Service\ZahlsApiService">
+            <argument type="service" id="customer.repository" />
+            <argument type="service" id="monolog.logger"/>
+            <argument type="service" id="ZahlsPaymentGateway\Service\ConfigService" />
+        </service>
+        <service id="ZahlsPaymentGateway\Service\ConfigService" class="ZahlsPaymentGateway\Service\ConfigService">
+            <argument type="service" id="system_config.repository" />
+            <argument type="service" id="monolog.logger"/>
+        </service>
+
+        <service id="ZahlsPaymentGateway\CookieProvider\CookieProvider" decorates="Shopware\Storefront\Framework\Cookie\CookieProviderInterface">
+            <argument type="service" id="ZahlsPaymentGateway\CookieProvider\CookieProvider.inner" />
+        </service>
+
+        <service id="ZahlsPaymentGateway\Subscriber\BackendSubscriber">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\ZahlsApiService" />
+            <tag name="kernel.event_subscriber"/>
+        </service>
+
+        <service id="ZahlsPaymentGateway\Webhook\Dispatcher">
+            <argument type="service" id="Shopware\Core\Checkout\Order\Aggregate\OrderTransaction\OrderTransactionStateHandler"/>
+            <argument type="service" id="service_container" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\ConfigService" />
+            <argument type="service" id="ZahlsPaymentGateway\Service\ZahlsApiService" />
+            <argument type="service" id="ZahlsPaymentGateway\Handler\TransactionHandler" />
+            <argument type="service" id="monolog.logger"/>
+        </service>
+
+        <service id="ZahlsPaymentGateway\Webhook\Cancel">
+            <argument type="service" id="service_container" />
+            <argument type="service" id="ZahlsPaymentGateway\Handler\TransactionHandler" />
+        </service>
+   </services>
+</container>

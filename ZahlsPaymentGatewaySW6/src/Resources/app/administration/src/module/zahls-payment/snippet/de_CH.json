@@ -1,0 +1,54 @@
+{
+  "zahls-payment": {
+    "module": {
+      "title": "zahls.ch Payments",
+      "description": "zahls.ch Payments"
+    },
+    "settingsForm": {
+      "title": "zahls.ch Payments",
+      "test": "Teste den API-Zugang",
+      "save": "Speichern",
+      "messages": {
+        "messageNotBlank": "Dieses Feld darf nicht leer sein.",
+        "titleSuccess": "Erfolg",
+        "titleError": "Fehler",
+        "messageTestSuccess": "Die API-Zugangsdaten sind korrekt.",
+        "messageTestError": "Die API-Zugangsdaten sind falsch.",
+        "messageTestErrorGeneral": "Die API-Zugangsdaten konnten nicht verifiziert werden.",
+        "messageSaveSuccess": "Die Plugin-Einstellungen wurden gespeichert.",
+        "messageSaveError": "Die Plugin-Einstellungen konnten nicht gespeichert werden."
+      },
+      "connectButton": {
+        "text": {
+          "connect": "Mit {platform} verbinden",
+          "select": "Wähle eine Platform aus"
+        },
+        "messages": {
+          "noPlatform": {
+            "title": "Plattform fehlt",
+            "message": "Bitte wähle eine Plattform aus"
+          },
+          "cancelled": {
+            "title": "Abgebrochen",
+            "message": "Verbinden abgebrochen. Es wurden keine Einstellungen gespeichert"
+          },
+          "success": {
+            "title": "Erfolg",
+            "message": "API Key and Instanz wurden erfolgreich importiert"
+          },
+          "error": {
+            "title": "Fehler beim Speichern",
+            "message": "Konfiguration konnte nicht gespeichert werden: {message}"
+          }
+        }
+      }
+    },
+    "supportModal": {
+      "supportButton": "Support",
+      "title": "Wie können wir Ihnen helfen?",
+      "supportDesc": "Kontaktieren Sie unser Support-Team",
+      "manualButton": "Dokumentation",
+      "manualDesc": "Lesen Sie unsere Integrations Anleitung"
+    }
+  }
+}

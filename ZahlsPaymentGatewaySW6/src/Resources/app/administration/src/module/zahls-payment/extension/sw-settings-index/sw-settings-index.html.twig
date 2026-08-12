@@ -1,0 +1,11 @@
+{% block sw_settings_content_card_slot_plugins %}
+    {% parent %}
+
+    <sw-settings-item :label="$tc('zahls-payment.module.title')"
+                      :to="{ name: 'zahls.payment.index' }"
+                      :backgroundEnabled="false">
+        <template #icon>
+            <img class="sw-settings-index__zahls-icon" :src="'zahlspaymentgatewaysw6/administration/plugin.png' | asset" :alt="'zahls.ch'">
+        </template>
+    </sw-settings-item>
+{% endblock %}

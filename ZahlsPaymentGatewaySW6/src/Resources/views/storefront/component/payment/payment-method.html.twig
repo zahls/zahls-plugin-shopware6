@@ -1,0 +1,15 @@
+{% sw_extends '@Storefront/storefront/component/payment/payment-method.html.twig' %}
+
+{% block component_payment_fieldset_template %}
+    {{ parent() }}
+    {% if payment.customFields.zahls_payment_method_name == 'zahls_payment_apple_pay' %}
+        <div id='zahls-applepay'>
+            <template data-zahls-apple-pay></template>
+        </div>
+    {% elseif payment.customFields.zahls_payment_method_name == 'zahls_payment_google_pay' %}
+        <div id='zahls-googlepay'>
+            <script src="https://pay.google.com/gp/p/js/pay.js"></script>
+            <template data-zahls-google-pay></template>
+        </div>
+    {% endif %}
+{% endblock %}

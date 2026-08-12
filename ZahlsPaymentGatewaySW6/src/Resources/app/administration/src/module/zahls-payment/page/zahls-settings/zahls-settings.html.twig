@@ -1,0 +1,106 @@
+{% block zahls_payment_settings %}
+<sw-page class="zahls-payment">
+    {% block zahls_payment_settings_header %}
+    <template slot="smart-bar-header">
+        <h2>
+            {{ $tc('sw-settings.index.title') }}
+            <sw-icon name="small-arrow-medium-right" small></sw-icon>
+            {{ $tc('zahls-payment.settingsForm.title') }}
+        </h2>
+    </template>
+    {% endblock %}
+    {% block zahls_payment_actions %}
+    <template #smart-bar-actions>
+        {% block zahls_payment_settings_actions_feedback %}
+        <sw-button
+            @click="isSupportModalOpen = true"
+            :disabled="false"
+            variant="ghost"
+            :square="false"
+            :block="false"
+            :isLoading="false">
+            {{ $tc('zahls-payment.supportModal.supportButton') }}
+        </sw-button>
+        {% endblock %}
+        {% block zahls_payment_settings_actions_test %}
+        <sw-button-process @click="onTest"
+                           :isLoading="isTesting"
+                           :processSuccess="isTestSuccessful"
+                           :disabled="credentialsMissing || isLoading">
+            {{ $tc('zahls-payment.settingsForm.test') }}
+        </sw-button-process>
+        {% endblock %}
+
+
+        {% block zahls_payment_settings_actions_save %}
+        <sw-button-process
+            class="zahls_payment_settings_actions__save-action"
+            :isLoading="isLoading"
+            :processSuccess="isSaveSuccessful"
+            :disabled="isLoading || isTesting"
+            variant="primary"
+            @process-finish="saveFinish"
+            @click="onSave">
+            {{ $tc('zahls-payment.settingsForm.save') }}
+        </sw-button-process>
+        {% endblock %}
+    </template>
+    {% endblock %}
+    {% block zahls_payment_settings_content %}
+    <template #content>
+        <sw-modal
+            v-if="isSupportModalOpen"
+            @modal-close="isSupportModalOpen = false"
+            :title="$tc('zahls-payment.supportModal.title')"
+            class="zahls-support sw-modal--medium">
+            <sw-container columns="1fr 1fr">
+                <div class="zahls-support__col">
+                    <div class="zahls-support__icon">
+                        <sw-icon name="default-documentation-file" large="true"></sw-icon>
+                    </div>
+                    <p class="zahls-support__desc">
+                        {{ $tc('zahls-payment.supportModal.manualDesc') }}
+                    </p>
+                    <sw-button
+                        :disabled="false"
+                        variant="primary"
+                        :square="false"
+                        :block="false"
+                        :isLoading="false"
+                        link="https://www.zahls.ch/de/hilfe/integration/e-commerce/shopware-6">
+                        {{ $tc('zahls-payment.supportModal.manualButton') }}
+                    </sw-button>
+                </div>
+                <div class="zahls-support__col">
+                    <div class="zahls-support__icon">
+                        <sw-icon name="default-device-headset" large="true"></sw-icon>
+                    </div>
+                    <p class="zahls-support__desc">
+                        {{ $tc('zahls-payment.supportModal.supportDesc') }}
+                    </p>
+                    <sw-button
+                        :disabled="false"
+                        variant="primary"
+                        :square="false"
+                        :block="false"
+                        :isLoading="false"
+                        link="mailto:support+shopware@zahls.ch">
+                        {{ $tc('zahls-payment.supportModal.supportButton') }}
+                    </sw-button>
+                </div>
+            </sw-container>
+        </sw-modal>
+
+        <sw-card-view>
+            <sw-system-config
+                ref="systemConfig"
+                sales-channel-switchable
+                inherit
+                @config-changed="onConfigChange"
+                domain="ZahlsPaymentGatewaySW6.settings">
+            </sw-system-config>
+        </sw-card-view>
+    </template>
+    {% endblock %}
+</sw-page>
+{% endblock %}
