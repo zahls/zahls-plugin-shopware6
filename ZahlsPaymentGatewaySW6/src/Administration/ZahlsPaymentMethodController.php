@@ -25,8 +25,7 @@ class ZahlsPaymentMethodController
         require_once dirname(dirname(__DIR__)). '/vendor/autoload.php';
         $config = $request->get('credentials', []);
 
-        $platform = !empty($config['platform']) ? $config['platform'] : '';
-        $zahls = new \Zahls\Zahls($config['instanceName'], $config['apiKey'], '', $platform);
+        $zahls = new \Zahls\Zahls($config['instanceName'], $config['apiKey']);
 
         $signatureCheck = new \Zahls\Models\Request\SignatureCheck();
 
