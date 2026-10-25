@@ -13,6 +13,7 @@ use Shopware\Core\Framework\Plugin\Context\InstallContext;
 use Shopware\Core\Framework\Plugin\Context\UninstallContext;
 use Shopware\Core\Framework\Plugin\Context\UpdateContext;
 use Shopware\Core\Framework\Plugin\Util\PluginIdProvider;
+use Shopware\Core\System\SystemConfig\SystemConfigService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
@@ -29,11 +30,13 @@ class ZahlsPaymentInstaller implements InstallerInterface
     public function install(InstallContext $context): void
     {
         $this->getPaymentMethodInstaller()->install($context);
+        $this->setPlatform();
     }
 
     public function update(UpdateContext $context): void
     {
         $this->getPaymentMethodInstaller()->update($context);
+        $this->setPlatform();
     }
 
     public function uninstall(UninstallContext $context): void
@@ -44,11 +47,24 @@ class ZahlsPaymentInstaller implements InstallerInterface
     public function activate(ActivateContext $context): void
     {
         $this->getPaymentMethodInstaller()->activate($context);
+        $this->setPlatform();
     }
 
     public function deactivate(DeactivateContext $context): void
     {
         $this->getPaymentMethodInstaller()->deactivate($context);
+    }
+
+    /**
+     * zahls.ch is the only platform, so there is no setting for it any more. The bundled
+     * administration (connect button) still reads it from the plugin configuration.
+     */
+    private function setPlatform(): void
+    {
+        $systemConfig = $this->container->get(SystemConfigService::class, ContainerInterface::NULL_ON_INVALID_REFERENCE);
+        if ($systemConfig instanceof SystemConfigService) {
+            $systemConfig->set('ZahlsPaymentGatewaySW6.settings.platform', 'zahls.ch');
+        }
     }
 
     private function getPaymentMethodInstaller(): InstallerInterface

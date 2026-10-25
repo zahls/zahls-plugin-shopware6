@@ -24,8 +24,7 @@ class ZahlsApiService
     private function getInterface(string $salesChannelId): \Zahls\Zahls
     {
         $config = $this->configService->getPluginConfiguration($salesChannelId);
-        $platform = !empty($config['platform']) ? $config['platform'] : 'zahls.ch';
-        return new \Zahls\Zahls($config['instanceName'], $config['apiKey'], '', $platform);
+        return new \Zahls\Zahls($config['instanceName'], $config['apiKey']);
     }
 
     /**

@@ -4,25 +4,12 @@
 
     <card>
         <title>Configuration</title>
-        <input-field type="single-select">
-            <name>platform</name>
-            <label>Platform</label>
-            <label lang="de-DE">Plattform</label>
-            <defaultValue>zahls.ch</defaultValue>
-            <placeholder>zahls.ch</placeholder>
-                                    <options>
-                <option>
-                    <id>zahls.ch</id>
-                    <name>zahls.ch</name>
-                </option>
-            </options>
-        </input-field>
         <component name="platform-connect-button">
             <name>platformConnectButton</name>
-            <label>Connect to Platform</label>
-            <label lang="de-DE">Mit Platform verbinden</label>
-            <helpText>Opens a new window to connect to your selected platform to import the credentials</helpText>
-            <helpText lang="de-DE">Öffnet ein neues Fenster, um eine Verbindung zu Ihrer ausgewählten Plattform herzustellen und die Anmeldedaten zu importieren.</helpText>
+            <label>Connect to zahls.ch</label>
+            <label lang="de-DE">Mit zahls.ch verbinden</label>
+            <helpText>Opens zahls.ch in a new window to import the credentials</helpText>
+            <helpText lang="de-DE">Öffnet zahls.ch in einem neuen Fenster, um die Anmeldedaten zu importieren.</helpText>
         </component>
         <input-field type="text">
             <name>instanceName</name>
