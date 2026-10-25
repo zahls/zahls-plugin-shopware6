@@ -1,7 +1,7 @@
 {
   "name": "zahls/shopware-payment",
   "description": "zahls.ch payment gateway for Shopware 6",
-  "version": "2.1.15",
+  "version": "2.1.16",
   "type": "shopware-platform-plugin",
   "license": "MIT",
   "authors": [
@@ -13,8 +13,7 @@
   "require": {
     "php": "^8",
     "shopware/core": "^6.6.5 || ~6.7.0",
-    "shopware/administration": "^6.6.5 || ~6.7.0",
-    "zahls/zahls-php": "dev-main"
+    "shopware/administration": "^6.6.5 || ~6.7.0"
   },
   "autoload": {
     "psr-4": {
@@ -43,13 +42,5 @@
       "de-DE": "https://www.zahls.ch/de/hilfe",
       "de-CH": "https://www.zahls.ch/de/hilfe"
     }
-  },
-  "repositories": [
-    {
-      "type": "vcs",
-      "url": "https://github.com/zahls/zahls-php.git"
-    }
-  ],
-  "minimum-stability": "dev",
-  "prefer-stable": true
+  }
 }

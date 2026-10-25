@@ -73,12 +73,12 @@ class Dispatcher
     {
         $content = json_decode($request->getContent());
 
-        $requestTransaction = $content->transaction;
-        $swOrderNumber = $requestTransaction->referenceId;
-        $requestGatewayId = $requestTransaction->invoice->paymentRequestId;
+        $requestTransaction = $content->transaction ?? null;
+        $swOrderNumber = $requestTransaction->referenceId ?? null;
+        $requestGatewayId = $requestTransaction->invoice->paymentRequestId ?? null;
 
         // check required data
-        if (!$swOrderNumber || !$requestTransaction->status || !$requestTransaction->id) {
+        if (!$swOrderNumber || empty($requestTransaction->status) || empty($requestTransaction->id)) {
             return new Response('Data incomplete', Response::HTTP_BAD_REQUEST);
         }
 
@@ -120,7 +120,7 @@ class Dispatcher
                         return new Response('Already Paid State', Response::HTTP_OK);
                     }
                 }
-                $savedGatewayIds = explode(',', (string) $orderTransaction->getCustomFields()['gateway_id']);
+                $savedGatewayIds = explode(',', (string) ($orderTransaction->getCustomFields()['gateway_id'] ?? ''));
                 if (in_array($requestGatewayId, $savedGatewayIds)) {
                     $transaction = $orderTransaction;
                     break;
@@ -141,6 +141,9 @@ class Dispatcher
 
         // Validate request by status
         $zahlsTransaction = $this->zahlsApiService->getZahlsTransaction($requestTransaction->id, $order->getSalesChannelId());
+        if (!$zahlsTransaction) {
+            return new Response('Validation: Transaction not found at zahls.ch', Response::HTTP_BAD_REQUEST);
+        }
         if ($zahlsTransaction->getStatus() !== $requestTransaction->status) {
             return new Response('Validation: Status Mismatch', Response::HTTP_BAD_REQUEST);
         }
