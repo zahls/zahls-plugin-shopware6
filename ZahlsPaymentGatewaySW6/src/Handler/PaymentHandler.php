@@ -430,6 +430,7 @@ class PaymentHandler extends AbstractPaymentHandler
     private function fetchOrderTransaction(string $transactionId, Context $context): array
     {
         $criteria = new Criteria([$transactionId]);
+        $criteria->addAssociation('stateMachineState');
         $criteria->addAssociation('order.billingAddress.country');
         $criteria->addAssociation('order.currency');
         $criteria->addAssociation('order.deliveries.shippingOrderAddress.country');

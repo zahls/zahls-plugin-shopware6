@@ -36,7 +36,7 @@
             <label>API Key</label>
             <label lang="de-DE">API Key</label>
 
-            <helpText>API secret from    zahls → API & Integrations</helpText>
+            <helpText>API secret from zahls → API &amp; Integrations</helpText>
         </input-field>
         <input-field type="text">
             <name>lookFeelID</name>
