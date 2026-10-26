@@ -1,5 +1,9 @@
 # Changelog
 
+## [2.1.18]
+### Security
+- Webhook: a transaction is only applied to an order when it was made on one of the order's zahls.ch gateways, and a confirmed payment must cover the order amount.
+
 ## [2.1.17]
 ### Improvement
 - Removed the "Platform" setting: zahls.ch is the only platform.
