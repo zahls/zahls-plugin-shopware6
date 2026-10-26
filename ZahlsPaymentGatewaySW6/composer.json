@@ -1,7 +1,7 @@
 {
   "name": "zahls/shopware-payment",
   "description": "zahls.ch payment gateway for Shopware 6",
-  "version": "2.1.17",
+  "version": "2.1.18",
   "type": "shopware-platform-plugin",
   "license": "MIT",
   "authors": [

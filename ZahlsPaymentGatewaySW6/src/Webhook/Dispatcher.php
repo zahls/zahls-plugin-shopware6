@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace ZahlsPaymentGateway\Webhook;
 
+use Zahls\Models\Response\Transaction;
 use ZahlsPaymentGateway\Handler\TransactionHandler;
 use ZahlsPaymentGateway\Service\ConfigService;
 use ZahlsPaymentGateway\Service\ZahlsApiService;
@@ -139,8 +140,9 @@ class Dispatcher
             );
         }
 
-        // Validate request by status
-        $zahlsTransaction = $this->zahlsApiService->getZahlsTransaction($requestTransaction->id, $order->getSalesChannelId());
+        // The webhook is unsigned: only its transaction id is trusted, everything else is checked against the API
+        $salesChannelId = $order->getSalesChannelId();
+        $zahlsTransaction = $this->zahlsApiService->getZahlsTransaction((int) $requestTransaction->id, $salesChannelId);
         if (!$zahlsTransaction) {
             return new Response('Validation: Transaction not found at zahls.ch', Response::HTTP_BAD_REQUEST);
         }
@@ -148,8 +150,69 @@ class Dispatcher
             return new Response('Validation: Status Mismatch', Response::HTTP_BAD_REQUEST);
         }
 
-        $this->transactionHandler->handleTransactionStatus($transaction, $requestTransaction->status, $context);
+        // Validate that the transaction was made on a gateway of this order
+        if (!$this->isTransactionOfGateway($zahlsTransaction, (int) $requestGatewayId, $salesChannelId)) {
+            $this->logger->warning('zahls.ch webhook: transaction does not belong to the gateway of the order', [
+                'transactionId' => $zahlsTransaction->getId(),
+                'gatewayId' => $requestGatewayId,
+                'orderNumber' => $order->getOrderNumber(),
+            ]);
+            return new Response('Validation: Transaction does not belong to this order', Response::HTTP_BAD_REQUEST);
+        }
+
+        // Validate the paid amount
+        if ($zahlsTransaction->getStatus() === Transaction::CONFIRMED
+            && (int) $zahlsTransaction->getAmount() < $this->toCents($transaction->getAmount()->getTotalPrice())
+        ) {
+            $this->logger->warning('zahls.ch webhook: transaction amount lower than the order amount', [
+                'transactionId' => $zahlsTransaction->getId(),
+                'amount' => $zahlsTransaction->getAmount(),
+                'orderNumber' => $order->getOrderNumber(),
+            ]);
+            return new Response('Validation: Amount Mismatch', Response::HTTP_BAD_REQUEST);
+        }
+
+        $this->transactionHandler->handleTransactionStatus($transaction, $zahlsTransaction->getStatus(), $context);
 
         return new Response('', Response::HTTP_OK);
+    }
+
+    /**
+     * The gateway id comes from the webhook payload, so the gateway must list the transaction
+     * or the transaction loaded from the API must name the gateway.
+     */
+    private function isTransactionOfGateway(Transaction $zahlsTransaction, int $gatewayId, string $salesChannelId): bool
+    {
+        $transactionId = (int) $zahlsTransaction->getId();
+        if (!$gatewayId || !$transactionId) {
+            return false;
+        }
+
+        $invoice = $zahlsTransaction->getInvoice();
+        if (is_array($invoice) && (int) ($invoice['paymentRequestId'] ?? 0) === $gatewayId) {
+            return true;
+        }
+
+        $zahlsGateway = $this->zahlsApiService->getZahlsGateway($gatewayId, $salesChannelId);
+        if (!$zahlsGateway) {
+            return false;
+        }
+        foreach ($zahlsGateway->getInvoices() ?: [] as $gatewayInvoice) {
+            foreach ($gatewayInvoice['transactions'] ?? [] as $gatewayTransaction) {
+                if ((int) ($gatewayTransaction['id'] ?? 0) === $transactionId) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Same conversion as used when creating the gateway
+     */
+    private function toCents(float $amount): int
+    {
+        return (int) str_replace('.', '', number_format($amount, 2, '.', ''));
     }
 }
